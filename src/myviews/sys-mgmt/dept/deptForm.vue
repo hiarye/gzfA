@@ -111,18 +111,20 @@
             res: function () {
                 let areaCode = this.formItem.areaCode;
                 let arr = [];
-                if (areaCode.substr(2, 4) === '0000') {
-                    arr.push(areaCode);
-                } else if (areaCode.substr(4, 2) === '00') {
-                    let level0 = `${areaCode.substr(0, 2)}0000`;
-                    arr.push(level0);
-                    arr.push(areaCode);
-                } else {
-                    let level0 = `${areaCode.substr(0, 2)}0000`;
-                    let level1 = `${areaCode.substr(0, 4)}00`;
-                    arr.push(level0);
-                    arr.push(level1);
-                    arr.push(areaCode);
+                if (areaCode && areaCode.length === 6) {
+                    if (areaCode.substr(2, 4) === '0000') {
+                        arr.push(areaCode);
+                    } else if (areaCode.substr(4, 2) === '00') {
+                        let level0 = `${areaCode.substr(0, 2)}0000`;
+                        arr.push(level0);
+                        arr.push(areaCode);
+                    } else {
+                        let level0 = `${areaCode.substr(0, 2)}0000`;
+                        let level1 = `${areaCode.substr(0, 4)}00`;
+                        arr.push(level0);
+                        arr.push(level1);
+                        arr.push(areaCode);
+                    }
                 }
                 return arr;
             }

@@ -30,24 +30,25 @@ const app = {
         ],
         tagsList: [...otherRouter.children],
         messageCount: 0,
-        dontCache: ['text-editor', 'artical-publish'] // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+        dontCache: ['text-editor', 'artical-publish'], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
+        authedRouters: [] // 这里是获得授权的路由
     },
     mutations: {
         setTagsList (state, list) {
             state.tagsList.push(...list);
         },
-        updateMenulist (state) {
+        updateMenulist (state) { // 每次都向后台请求数据,除了更新可展示的具有权限的菜单外，同时还将授权路由进行更新
             // let accessCode = parseInt(Cookies.get('access'));
             let menuList = [];
-            var accessRouter = [];
+            var authedRouters = [];
             Util.ajax.get('/')
                 .then(function (response) {
-                    accessRouter = JSON.parse(JSON.stringify(response.data));
+                    authedRouters = JSON.parse(JSON.stringify(response.data));
                     appRouter.forEach((item, index) => {
                         let childrenArr = [];
                         // 以二级菜单权限为准，如果二级菜单有授权，则一级菜单自动授权；二级菜单全无授权，则一级菜单自动无授权
                         childrenArr = item.children.filter(child => {
-                            if (Util.showThisRouteByAuth(child, accessRouter)) {
+                            if (Util.showThisRouteByAuth(child, authedRouters)) {
                                 return child;
                             };
                         });
@@ -55,7 +56,7 @@ const app = {
                             let len = menuList.push(item);
                             menuList[len - 1].children = childrenArr;
                         }
-                        // if (Util.showThisRouteByAuth(item, accessRouter)) { // 如果一级菜单已授权
+                        // if (Util.showThisRouteByAuth(item, authedRouters)) { // 如果一级菜单已授权
                         //     if (item.children.length === 1) { // 如果仅有一个子菜单，则默认子菜单也已授权
                         //         menuList.push(item);
                         //     } else {
@@ -71,6 +72,7 @@ const app = {
                         // }
                     });
                     state.menuList = menuList;
+                    state.authedRouters = authedRouters;
                 });
         },
         changeMenuTheme (state, theme) {

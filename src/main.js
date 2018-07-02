@@ -21,9 +21,9 @@ new Vue({
         currentPageName: ''
     },
     mounted () {
-        this.currentPageName = this.$route.name;
+        this.currentPageName = this.$route.name; // 打开当前路由
         // 显示打开的页面的列表
-        this.$store.commit('setOpenedList');
+        this.$store.commit('setOpenedList'); // 从localstorage中获取数据，而不是从state中获取数据，避免刷新页面而导致数据丢失
         this.$store.commit('initCachepage');
         // 权限菜单过滤相关
         this.$store.commit('updateMenulist');

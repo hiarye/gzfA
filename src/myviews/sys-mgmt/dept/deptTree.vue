@@ -235,6 +235,7 @@ export default {
                         expand: false,
                         id: '',
                         parentId: data.id,
+                        parentCode: data.code,
                         parent: {id: data.id, name: data.name, code: data.code}
                     });
                     vm.$set(data, 'children', children);

@@ -132,11 +132,12 @@
         methods: {
             init () {
                 let pathArr = util.setCurrentPath(this, this.$route.name);
-                this.$store.commit('updateMenulist');
+                this.$store.commit('updateMenulist'); // 每次刷新页面时，同时更新左侧具有权限的菜单
                 if (pathArr.length >= 2) {
                     this.$store.commit('addOpenSubmenu', pathArr[1].name);
                 }
                 // this.userName = Cookies.get('user');
+                this.$store.commit('updateUser'); // 每次刷新页面时，更新当前用户信息
                 this.userName = this.$store.state.user.user;
                 let messageCount = 3;
                 this.messageCount = messageCount.toString();
@@ -190,7 +191,7 @@
             }
         },
         watch: {
-            '$route' (to) {
+            '$route' (to) { // 每次路由切换时
                 this.$store.commit('setCurrentPageName', to.name);
                 let pathArr = util.setCurrentPath(this, to.name);
                 if (pathArr.length > 2) {

@@ -83,14 +83,14 @@ export default {
                         password
                     })
                         .then(function (response) {
-                            Cookies.set('user', userName);
-                            store.commit('login', userName);
-                            // window.alert(store.state.user.user);
-                            // Cookies.set('password', password);
-                            store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
                             let respType = response.data.type;
                             let respData = response.data.data;
                             if (respType === '0') {
+                                // Cookies.set('user', userName);
+                                store.commit('login', userName, respData);
+                                // window.alert(store.state.user.user);
+                                // Cookies.set('password', password);
+                                store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
                                 router.push({
                                     name: 'home_index'
                                 });

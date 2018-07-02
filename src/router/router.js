@@ -73,7 +73,7 @@ export const appRouter = [
         title: '系统管理',
         component: Main,
         children: [
-            { path: 'dept-mgmt', title: '机构管理', name: 'dept-mgmt', component: () => import('@/myviews/sys-mgmt/dept/dept-mgmt.vue') },
+            { path: 'dept-mgmt', title: '机构管理', name: 'dept-mgmt', access: true, component: () => import('@/myviews/sys-mgmt/dept/dept-mgmt.vue') },
             { path: 'user-mgmt', title: '用户管理', name: 'user-mgmt', component: () => import('@/myviews/sys-mgmt/user/user-mgmt.vue') },
             { path: 'role-mgmt', title: '角色管理', name: 'role-mgmt', component: () => import('@/myviews/sys-mgmt/role/role-mgmt.vue') },
             { path: 'router-mgmt', title: '路由管理', name: 'router-mgmt', component: () => import('@/myviews/sys-mgmt/router/router-mgmt.vue') },

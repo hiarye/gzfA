@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Tree :data="depts" :load-data="loadData" :render="renderContent" class="ivu-article" ></Tree>
+        <Tree ref="deptTree" :data="depts" :load-data="loadData" :render="renderContent" class="ivu-article" ></Tree>
         <Modal v-model="showModal" width="360">
             <p slot="header" style="color:#f60;text-align:center">
                 <Icon type="information-circled"></Icon>
@@ -85,7 +85,7 @@ export default {
                     obj.isOrg = item.isOrg;
                     obj.title = item.name;
                     obj.expand = false;
-                    obj.selected = true;
+                    obj.selected = false;
                     obj.loading = false;
                     obj.children = this.getTreeNodes(item.children, obj); // 递归调用
                     arr.push(obj);
@@ -98,7 +98,7 @@ export default {
             this.rootNode = root;
             this.currentNode = node;
             this.currentData = data;
-            // 发送当前选中的节点信息到上级组件
+            // 发送当前选中的节点信息到本组件的on-select-node事件
             this.$emit('on-select-node', data);
         },
         // 初始化树的根节点
@@ -184,11 +184,16 @@ export default {
                     }),
                     h('span', {
                         class: [
-                            'ivu-tree-title'
+                            'ivu-tree-title',
+                            {
+                                'ivu-tree-title-selected': data.selected
+                            }
                         ],
                         on: {
                             click: (event) => {
                                 event.preventDefault();
+                                if (data.disabled) return;
+                                vm.$refs['deptTree'].$emit('on-selected', data.nodeKey);
                                 vm.clickTarget(root, node, data);
                             }
                         }

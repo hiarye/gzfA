@@ -7,7 +7,7 @@
     <div>
     <span>id = {{formItem.id}}  and {{formItem.parent}} and {{formItem.parentCode}}</span>
     <Form ref="deptForm" :model="formItem" :rules="ruleValidate" :label-width="90">
-        <FormItem label="上级机构" style="margin-bottom: 10px" prop="parentName">
+        <FormItem label="上级机构1" style="margin-bottom: 10px" prop="parentName">
             <Input v-model="formItem.parent.name" disabled></Input>
         </FormItem>
         <FormItem label="机构代码" prop="code">
